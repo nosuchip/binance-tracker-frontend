@@ -19,13 +19,11 @@
 
         <v-sparkline
             class="sparkline"
-            v-if="sparkline"
-            :value="sparkline"
+            v-model="model.sparkline"
             :smooth="10"
-            :line-width="2"
-            padding="0"
+            :line-width="4"
+            padding="2"
             stroke-linecap="round"
-            auto-draw
         ></v-sparkline>
     </v-row>
 </template>
@@ -57,8 +55,6 @@ import { Component, Mixins } from 'vue-property-decorator';
 import ModelMixin from '@/mixins/ModelMixin';
 import { Signal } from '@/types/signals';
 
-const emptySparkline = new Array(30).fill(0);
-
 @Component({
     components: {},
     mixins: [ModelMixin],
@@ -70,11 +66,6 @@ export default class SignalRow extends Mixins<ModelMixin<Signal>>(ModelMixin) {
 
     get price() {
         return this.model.price && this.model.price.toFixed ? this.model.price.toFixed(3) : this.model.price;
-    }
-
-    get sparkline() {
-        return this.model.sparkline || emptySparkline;
-        // return new Array(30).fill(null).map(() => this.random(0, 30));
     }
 }
 </script>

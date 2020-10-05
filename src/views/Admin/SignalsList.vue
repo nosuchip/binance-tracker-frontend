@@ -58,10 +58,7 @@ import { Debounce } from '@/modules/decorators';
     },
     mixins: [LoadableMixin, PaginatedMixin],
 })
-export default class SignalsList extends Mixins<LoadableMixin, PaginatedMixin<DeviceInfo>>(
-    LoadableMixin,
-    PaginatedMixin,
-) {
+export default class SignalsList extends Mixins<LoadableMixin, PaginatedMixin<Signal>>(LoadableMixin, PaginatedMixin) {
     @State('loading')
     readonly loading!: boolean;
 
@@ -124,7 +121,7 @@ export default class SignalsList extends Mixins<LoadableMixin, PaginatedMixin<De
         const { id } = row;
 
         if (id) {
-            this.$router.push({ name: 'signal-edit', params: { signalId: id } });
+            this.$router.push({ name: 'signal-edit', params: { signalId: `${id}` } });
         }
     }
 }

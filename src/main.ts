@@ -8,7 +8,7 @@ import './plugins/toasted';
 
 Vue.config.productionTip = false;
 
-new Vue({
+const vm = new Vue({
     router,
     store,
     vuetify,

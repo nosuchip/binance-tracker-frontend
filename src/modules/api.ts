@@ -11,7 +11,7 @@ export interface QueryParams {
 }
 
 export const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: process.env.VUE_APP_API_ENDPOINT || 'http://localhost:3000',
     // timeout: 1000,
     // headers: { 'X-Custom-Header': 'foobar' }
 });
@@ -55,7 +55,7 @@ export const loadSignals = async ({
     return axiosInstance.get('/api/signals', { params: { page, perPage, filter, paid } }).then(({ data }) => data);
 };
 
-export const loadSignal = async (signalId: string): Promise<{signal: Signal, comments: Comment[]}> => {
+export const loadSignal = async (signalId: string): Promise<{ signal: Signal; comments: Comment[] }> => {
     return axiosInstance.get(`/api/signals/${signalId}`).then(({ data }) => data);
 };
 

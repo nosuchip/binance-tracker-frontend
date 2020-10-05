@@ -41,6 +41,9 @@ import Loader from '@/components/Loader.vue';
 import Drawer from '@/components/app/Drawer.vue';
 import { logout } from '@/store/utils';
 
+// Connect WS
+import '@/modules/ws';
+
 @Component({
     components: {
         Loader,
