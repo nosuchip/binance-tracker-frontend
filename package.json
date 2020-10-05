@@ -6,8 +6,10 @@
     "start": "npm run serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:staging": "rm -rf ./dist && vue-cli-service build --mode staging",
     "lint": "vue-cli-service lint",
-    "prettier": "prettier --write ./src/**/*.{ts,vue}"
+    "prettier": "prettier --write ./src/**/*.{ts,vue}",
+    "update:backend": "rm -rf -rf ../backend/client/dist && cp -r ./dist ../backend/client"
   },
   "dependencies": {
     "@types/reconnectingwebsocket": "^1.0.5",

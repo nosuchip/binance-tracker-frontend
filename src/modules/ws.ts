@@ -5,10 +5,7 @@ import loglevel from "loglevel";
 import store from '@/store';
 import _clone from 'lodash/clone';
 import { mutations } from "@/store/types";
-
-export const WS_ENDPOINT = process.env.VUE_APP_WS_ENDPOINT || `ws://${location.host}/ws`;
-
-console.log(`WS endpoint: ${WS_ENDPOINT}`);
+import { websocketBaseUrl } from '@/config';
 
 export class Websocket {
     public ws!: ReconnectingWebSocket;
@@ -52,7 +49,7 @@ export class Websocket {
     }
 }
 
-const ws = new Websocket(WS_ENDPOINT, () => { console.log(`Websocket opened`); });
+const ws = new Websocket(websocketBaseUrl, () => { console.log(`Websocket opened`); });
 
 let timeout = new Date().getTime();
 

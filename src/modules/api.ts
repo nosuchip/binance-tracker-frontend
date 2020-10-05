@@ -3,6 +3,7 @@ import { UserInfo, AuthToken } from '@/types/user-info';
 import { Signal } from '@/types/signals';
 import { Comment, Post } from '@/types/blog';
 import { Paginated } from '@/types/pagination';
+import { apiBaseUrl } from '@/config';
 
 export interface QueryParams {
     page?: number;
@@ -11,7 +12,7 @@ export interface QueryParams {
 }
 
 export const axiosInstance = axios.create({
-    baseURL: process.env.VUE_APP_API_ENDPOINT || 'http://localhost:3000',
+    baseURL: apiBaseUrl,
     // timeout: 1000,
     // headers: { 'X-Custom-Header': 'foobar' }
 });
