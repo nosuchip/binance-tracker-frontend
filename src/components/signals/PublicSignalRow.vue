@@ -1,19 +1,35 @@
 <template>
     <tr :class="`PublicSignalRow ${odd ? 'odd' : ''}`">
-        <td>{{ model.ticker }}</td>
+        <td>{{ model.title || model.ticker }}</td>
         <td>
             <div class="d-flex flex-column">
                 <div class="published-at-data">
-                    {{ model.createdAt | dayjs('format', 'DD.MM.YYYY HH:mm') }}
+                    {{ model.createdAt | dayjs('format', 'HH:mm DD.MM.YYYY') }}
                 </div>
                 <div class="updated-at-data font-small">
-                    updated at {{ model.updateddAt | dayjs('format', 'DD.MM.YYYY HH:mm') }}
+                    {{ $t('updated at') }} {{ model.updatedAt | dayjs('format', 'HH:mm DD.MM.YYYY') }}
                 </div>
             </div>
         </td>
-        <td>{{ model.price }}</td>
-        <td>{{ model.profitability }}</td>
-        <td>{{ model.status }}</td>
+        <td>{{ model.price || '-' }}</td>
+        <td>
+            <div class="d-flex flex-column">
+                <div class="current-price">
+                    {{ model.lastPrice || '-' }}
+                </div>
+                <div class="remainings">{{ $t('remains in position') }} {{ remainings }}</div>
+            </div>
+        </td>
+        <td>{{ profitability }}</td>
+        <td>
+            {{ status }}
+            <v-btn icon x-small @click.stop="showSignalStatusHelp = true">
+                <v-icon dark>
+                    mdi-information-outline
+                </v-icon>
+            </v-btn>
+            <popup v-model="showSignalStatusHelp" :title="$t('Signal statuses')" :text="$t('statusesHelp')" />
+        </td>
         <td class="details">
             <v-badge color="green" overlap :content="comments">
                 <v-btn
@@ -24,7 +40,7 @@
                     :to="accessible ? { name: 'signal-view', params: { signalId: model.id } } : ''"
                 >
                     <v-icon small v-if="!accessible">mdi-lock</v-icon>
-                    Details
+                    {{ $t('Details') }}
                 </v-btn>
             </v-badge>
         </td>
@@ -37,9 +53,10 @@
         text-align: right;
     }
 
-    .updated-at-data {
-        font-weight: 200;
+    .updated-at-data,
+    .remainings {
         font-size: 11px;
+        color: #aaa;
     }
 
     &.odd {
@@ -48,7 +65,11 @@
 
     .details {
         .details-button {
-            width: 100px;
+            width: 150px;
+
+            ::v-deep .v-btn__content {
+                font-size: 11px;
+            }
         }
     }
 }
@@ -61,12 +82,17 @@ import { Signal } from '@/types/signals';
 import _get from 'lodash/get';
 import { State } from 'vuex-class';
 import { UserInfo } from '@/types/user-info';
+import Popup from '@/components/Popup.vue';
 
 @Component({
-    components: {},
+    components: {
+        Popup,
+    },
     mixins: [ModelMixin],
 })
 export default class SignalRow extends Mixins<ModelMixin<Signal>>(ModelMixin) {
+    private showSignalStatusHelp = false;
+
     @State('user')
     user!: UserInfo | null;
 
@@ -79,6 +105,29 @@ export default class SignalRow extends Mixins<ModelMixin<Signal>>(ModelMixin) {
 
     get accessible() {
         return !this.model.paid || (this.user && ['admin', 'paid user'].includes(this.user.role));
+    }
+
+    get status() {
+        const mapping = {
+            delayed: this.$t('Delayed'),
+            active: this.$t('Active'),
+            finished: this.$t('Finished'),
+            cancelled: this.$t('Cancelled'),
+        };
+
+        return mapping[this.model.status];
+    }
+
+    get profitability() {
+        if (!this.model.profitability || !this.model.price) {
+            return '-';
+        }
+
+        return ((this.model.profitability / this.model.price - 1) * 100).toFixed(3) + '%';
+    }
+
+    get remainings() {
+        return !this.model.remaining || isNaN(this.model.remaining as number) ? '-' : `${this.model.remaining * 100}%`;
     }
 }
 </script>

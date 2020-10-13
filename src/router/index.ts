@@ -27,6 +27,8 @@ const routes: Array<RouteConfig> = [
         component: Dashboard,
         meta: {
             title: 'Dashboard',
+            showInMenu: true,
+            icon: 'mdi-view-dashboard'
         },
     },
     {

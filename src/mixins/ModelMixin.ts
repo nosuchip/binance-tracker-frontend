@@ -1,9 +1,9 @@
-import { Vue, Component, Model } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 import { Changeable } from '@/types/base';
 
 @Component
 export default class ModelMixin<T> extends Vue {
-    @Model('change')
+    @Prop({ required: true })
     readonly value!: T;
 
     get model() {
@@ -19,10 +19,4 @@ export default class ModelMixin<T> extends Vue {
 
         this.$emit('input', newModel);
     }
-
-    // @Watch('model', { deep: true })
-    // onModelChanged() {
-    //     (this.model as Dictionary).changed = true;
-    //     // this.$emit('input', this.model);
-    // }
 }

@@ -1,0 +1,58 @@
+{
+    "Signal information": "Информация о сигнале",
+    "Entry points": "Точки входа",
+    "Take profits": "Take profit",
+    "Stop losses": "Stop loss",
+
+    "Comment": "Комментарий",
+    "Comments": "Комментарии",
+    "Paid signal": "Платный сигнал",
+    "Price": "Цена",
+    "Recommended volume": "Рекомендованный объём",
+    "Risk": "Риск",
+    "Terms": "Срочность",
+    "Ticker": "Валюта",
+    "Type": "Тип",
+    "Volume": "Объём",
+    "+ Add more": "+ Добавить ещё",
+
+    "High": "Высокий",
+    "Long": "Длинный",
+    "Low": "Низкий",
+    "Medium": "Средний",
+    "Short": "Короткий",
+    "updated at": "обновлён в",
+    "Details": "Подробности",
+    "Title": "Название",
+
+    "Currency": "Валюта",
+    "Published": "Опубликован",
+    "Current price": "Текущая цена",
+    "Profitability": "Доходность",
+    "Status": "Статус",
+
+    "Delayed": "Отложенный",
+    "Active": "Активный",
+    "Finished": "Отработанный",
+    "Cancelled": "Отменённый",
+
+    "Signal statuses": "Статусы сигнала",
+
+    "statusesHelp": "Значения:<ul><li>Отложенный - цена не пересекала уровни входа</li><li>Активный - цена пересекла уровни входа и не пересекла все TP или SL </li><li>Отработал - цена пересекла SL или все TP</li><li>Отмененный - сигнал был отменен</li></ul>",
+
+    "edit": {
+      "paid_signal_hint": "Ваш сигнал будет доступен только платным пользователям",
+      "comments_hint": "Разрешить другим пользователям комментировать ваш сигнал",
+      "delete_signal_confirm": "Вы уверены, что хотите удалить сигнал? Это действие нельзя будет отменить.",
+      "take_profit_must_be_1": "Сумма Take Profit должна быть равна 100%",
+      "stop_loss_must_be_1": "Сумма Stop Loss должна быть равна 100%",
+      "long_take_profit_must_be_greater_then_entry_points": "Для сигнала 'long' все Take Profit должны превышать наивысшую точку входа",
+      "long_stop_loss_must_be_less_then_entry_points": "Для сигнала 'long' все Stop Loss не должны превышать низшую точку входа",
+      "short_take_profit_must_be_less_then_entry_points": "Для сигнала 'long' все Take Profit не должны превышать низшую точку входа",
+      "short_stop_loss_must_be_greater_then_entry_points": "Для сигнала 'long' все Stop Loss должны превышать наивысшую точку входа",
+      "entry_point_must_exists": "Должна быть задана хотя бы одна точка входа",
+      "take_profit_must_exists": "Должен быть задан хотя бы один ордер Take Profit",
+      "stop_loss_must_exists": "Должен быть задан хотя бы один ордер Stop Loss",
+      "title_hint": "Человекочитаемое название валюты, используется только при отображении"
+    }
+}

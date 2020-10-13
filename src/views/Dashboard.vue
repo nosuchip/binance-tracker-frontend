@@ -7,19 +7,22 @@
                 <thead>
                     <tr>
                         <th class="currency">
-                            Currency
+                            {{ $t('Currency') }}
                         </th>
                         <th class="published-at">
-                            Published
+                            {{ $t('Published') }}
+                        </th>
+                        <th class="entry-price">
+                            {{ $t('Entry price') }}
                         </th>
                         <th class="current-price">
-                            Current price
+                            {{ $t('Current price') }}
                         </th>
                         <th class="profitability">
-                            Profitability
+                            {{ $t('Profitability') }}
                         </th>
                         <th class="status">
-                            Status
+                            {{ $t('Status') }}
                         </th>
                         <th></th>
                     </tr>

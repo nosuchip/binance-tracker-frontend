@@ -1,24 +1,31 @@
 <template>
     <v-row class="SignalEntryPoint">
-        <v-col cols="12" sm="1" class="d-flex justify-center align-center order pb-0">
+        <v-col cols="12" sm="1" class="d-flex justify-center align-center order">
             {{ order }}
         </v-col>
-        <v-col cols="12" sm="4" class="pb-0">
+        <v-col cols="12" sm="4">
             <v-text-field
                 v-model.number="model.price"
                 type="number"
                 :rules="requiredRules"
-                label="Price"
+                :label="$t('Price')"
                 required
                 dense
                 hide-details
+                :disabled="disabled"
             ></v-text-field>
         </v-col>
-        <v-col cols="12" sm="6" class="pb-0 pr-0">
-            <v-text-field v-model="model.comment" dense label="Comment" hide-details></v-text-field>
+        <v-col cols="12" sm="6" class="pr-0">
+            <v-text-field
+                v-model="model.comment"
+                dense
+                :label="$t('Comment')"
+                hide-details
+                :disabled="disabled"
+            ></v-text-field>
         </v-col>
-        <v-col cols="12" sm="1" class="pb-0 pl-0 d-flex justify-center align-center">
-            <v-btn icon small @click="onDelete">
+        <v-col cols="12" sm="1" class="pl-0 d-flex justify-center align-center">
+            <v-btn icon small @click="onDelete" :disabled="disabled">
                 <v-icon dark>
                     mdi-trash-can-outline
                 </v-icon>
@@ -47,6 +54,9 @@ export default class SignalEntryPoint extends Mixins<ModelMixin<EntryPoint>>(Mod
 
     @Prop({ type: Number, required: true })
     order!: number;
+
+    @Prop({ type: Boolean, required: false })
+    disabled!: boolean;
 
     @Prop({ type: Function, required: true })
     onDelete!: () => void;

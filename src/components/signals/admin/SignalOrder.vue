@@ -1,33 +1,41 @@
 <template>
     <v-row class="SignalOrder">
-        <v-col cols="12" sm="1" class="d-flex justify-center align-center order pb-0">
+        <v-col cols="12" sm="1" class="d-flex justify-center align-center order">
             {{ order }}
         </v-col>
-        <v-col cols="12" sm="4" class="pb-0">
+        <v-col cols="12" sm="4">
             <v-text-field
                 v-model.number="model.price"
                 type="number"
                 :rules="requiredRules"
-                label="Price"
+                :label="$t('Price')"
                 required
                 hide-details
+                :disabled="disabled"
             ></v-text-field>
         </v-col>
-        <v-col cols="12" sm="2" class="pb-0">
+        <v-col cols="12" sm="2">
             <v-text-field
-                v-model.number="model.volume"
+                v-model.number="volume"
                 type="number"
                 :rules="requiredRules"
-                label="Volume"
+                :label="$t('Volume')"
+                suffix="%"
                 required
                 hide-details
+                :disabled="disabled"
             ></v-text-field>
         </v-col>
-        <v-col cols="12" sm="4" class="pb-0">
-            <v-text-field v-model="model.comment" label="Comment" hide-details></v-text-field>
+        <v-col cols="12" sm="4">
+            <v-text-field
+                v-model="model.comment"
+                :label="$t('Comment')"
+                hide-details
+                :disabled="disabled"
+            ></v-text-field>
         </v-col>
         <v-col cols="12" sm="1" class="pb-0 d-flex justify-center align-center">
-            <v-btn icon small @click="onDelete">
+            <v-btn icon small @click="onDelete" :disabled="disabled">
                 <v-icon dark>
                     mdi-trash-can-outline
                 </v-icon>
@@ -57,7 +65,18 @@ export default class SignalOrder extends Mixins<ModelMixin<Order>>(ModelMixin) {
     @Prop({ type: Number, required: true })
     order!: number;
 
+    @Prop({ type: Boolean, required: false })
+    disabled!: boolean;
+
     @Prop({ type: Function, required: true })
     onDelete!: () => void;
+
+    get volume() {
+        return this.model.volume * 100;
+    }
+
+    set volume(value) {
+        this.model.volume = value / 100;
+    }
 }
 </script>

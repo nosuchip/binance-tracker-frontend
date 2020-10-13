@@ -19,7 +19,9 @@ export interface Order extends Changeable, Timestampable {
 
 export interface Signal extends Changeable, Timestampable {
     id: number;
-    status: 'delayed' | 'active' | 'fired' | 'cancelled';
+    userId: number;
+
+    status: 'delayed' | 'active' | 'finished' | 'cancelled';
     profitability: number;
     ticker: string;
     title: string;
@@ -30,11 +32,14 @@ export interface Signal extends Changeable, Timestampable {
     volume: number;
     paid: boolean;
     commentable: boolean;
-    userId: number;
+    date?: Date;
+    post?: string;
     comments: Comment[];
     entryPoints: EntryPoint[];
     takeProfitOrders: Order[];
     stopLossOrders: Order[];
+
+    remaining?: number;
 
     // Client-side runtime data
 
@@ -83,6 +88,8 @@ export const defaultSignal = (override = {}): Signal => ({
     volume: 0,
     paid: false,
     commentable: true,
+
+    remaining: 1,
 
     userId: 0,
     comments: [],
