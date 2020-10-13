@@ -1,6 +1,6 @@
 import { UserInfo, AuthToken } from '../user-info';
 import { Commit } from 'vuex';
-import { Signal } from "../signals";
+import { Signal } from '../signals';
 
 export interface State {
     loading: boolean;

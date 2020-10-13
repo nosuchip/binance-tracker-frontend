@@ -1,5 +1,5 @@
-import { Vue, Component, Model, Watch } from 'vue-property-decorator';
-import { Dictionary } from '@/types/base';
+import { Vue, Component, Model } from 'vue-property-decorator';
+import { Changeable } from '@/types/base';
 
 @Component
 export default class ModelMixin<T> extends Vue {
@@ -11,12 +11,18 @@ export default class ModelMixin<T> extends Vue {
     }
 
     set model(newModel) {
+        const asChangeable = this.model as Changeable;
+
+        if (Object.prototype.hasOwnProperty.call(asChangeable, 'changed')) {
+            asChangeable.changed = true;
+        }
+
         this.$emit('input', newModel);
     }
 
-    @Watch('model', { deep: true })
-    onModelChanged() {
-        (this.model as Dictionary).changed = true;
-        // this.$emit('input', this.model);
-    }
+    // @Watch('model', { deep: true })
+    // onModelChanged() {
+    //     (this.model as Dictionary).changed = true;
+    //     // this.$emit('input', this.model);
+    // }
 }

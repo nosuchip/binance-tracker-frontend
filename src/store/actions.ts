@@ -4,8 +4,8 @@ import router from '@/router';
 import * as api from '@/modules/api';
 import { Credentials } from '@/types/user-info';
 import { Dictionary } from '@/types/base';
-import { Paginated } from "@/types/pagination";
-import { Signal } from "@/types/signals";
+import { Paginated } from '@/types/pagination';
+import { Signal } from '@/types/signals';
 
 const login = async ({ commit }: ActionState, { username, password }: Credentials) => {
     console.log('ACTION login', username, password);
@@ -77,25 +77,28 @@ const checkAuthToken = async (
     }
 };
 
-const loadSignals = async ({ commit }: ActionState, { page, perPage, filter }: api.QueryParams): Promise<Paginated<Signal> | undefined> => {
+const loadSignals = async (
+    { commit }: ActionState,
+    { page, perPage, filter }: api.QueryParams,
+): Promise<Paginated<Signal> | undefined> => {
     console.log('ACTION loadUserInfo');
     commit(mutations.LOADING, { loading: true, message: 'Authenticating...' });
     try {
-        const result = await api.loadSignals({ page, perPage, filter, });
+        const result = await api.loadSignals({ page, perPage, filter });
         commit(mutations.SET_SIGNALS, { signals: result.data });
 
         return result;
-    } catch(error) {
+    } catch (error) {
         console.error('Check auth user error');
         console.error(error);
     } finally {
         commit(mutations.LOADING, { loading: false });
     }
-}
+};
 
 export default {
     [actions.LOGIN]: login,
     [actions.LOGOUT]: logout,
     [actions.CHECK_AUTH_TOKEN]: checkAuthToken,
-    [actions.LOAD_SIGNALS]: loadSignals
+    [actions.LOAD_SIGNALS]: loadSignals,
 };

@@ -1,7 +1,7 @@
 import { mutations } from './types';
 import { State } from '@/types/store/state';
 import { UserInfo } from '@/types/user-info';
-import { Signal } from "@/types/signals";
+import { Signal } from '@/types/signals';
 
 export default {
     [mutations.LOADING]: (state: State, { loading, message }: { loading: boolean; message?: string }) => {
@@ -20,7 +20,7 @@ export default {
     [mutations.SET_SIGNALS]: (state: State, { signals }: { signals: Signal[] }) => {
         state.signals = signals.map(signal => ({
             sparkline: new Array(30).fill(0),
-            ...signal
+            ...signal,
         }));
     },
 };

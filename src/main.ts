@@ -5,10 +5,11 @@ import router from './router';
 import store from './store';
 import vuetify from './plugins/vuetify';
 import './plugins/toasted';
+import './plugins/dayjs';
 
 Vue.config.productionTip = false;
 
-const vm = new Vue({
+new Vue({
     router,
     store,
     vuetify,

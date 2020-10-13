@@ -6,6 +6,6 @@ export interface Changeable {
 export type Dictionary<T = any> = { [key: string]: T };
 
 export interface Timestampable {
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt?: Date;
+    updatedAt?: Date;
 }

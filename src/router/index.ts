@@ -4,6 +4,7 @@ import Dashboard from '../views/Dashboard.vue';
 import Login from '../views/Account/Login.vue';
 import SignalsList from '../views/Admin/SignalsList.vue';
 import SignalEdit from '../views/Admin/SignalEdit.vue';
+import SignalView from '../views/SignalView.vue';
 // import DeviceList from '../views/DeviceList.vue';
 // import Device from '../views/Device.vue';
 // import PricingPlans from '../views/PricingPlans.vue';
@@ -46,6 +47,15 @@ const routes: Array<RouteConfig> = [
             showInMenu: true,
             icon: 'mdi-pencil-box-multiple-outline',
             title: 'Signals',
+        },
+    },
+    {
+        path: '/signal/:signalId',
+        name: 'signal-view',
+        component: SignalView,
+        meta: {
+            auth: false,
+            title: 'Signal',
         },
     },
     {

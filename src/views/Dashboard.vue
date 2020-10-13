@@ -1,20 +1,53 @@
 <template>
-    <v-container class="Dashboard">
+    <v-container class="Dashboard" fluid>
         <div class="text-h1">Signals</div>
 
-        <v-container class="signals">
-            <template v-for="(signal, index) in signals">
-                <signal-row :key="index" :value="signal"></signal-row>
+        <v-simple-table>
+            <template v-slot:default>
+                <thead>
+                    <tr>
+                        <th class="currency">
+                            Currency
+                        </th>
+                        <th class="published-at">
+                            Published
+                        </th>
+                        <th class="current-price">
+                            Current price
+                        </th>
+                        <th class="profitability">
+                            Profitability
+                        </th>
+                        <th class="status">
+                            Status
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <template v-for="(signal, index) in signals">
+                        <public-signal-row :key="index" :value="signal" :odd="!(index % 2)"></public-signal-row>
+                    </template>
+                </tbody>
             </template>
-        </v-container>
+        </v-simple-table>
     </v-container>
 </template>
+
+<style lang="scss" scoped>
+.Dashboard {
+    th {
+        text-align: right !important;
+    }
+}
+</style>
 
 <script lang="ts">
 import { Component, Mixins } from 'vue-property-decorator';
 import LoadableMixin from '@/mixins/Loadable';
 import PaginatedMixin from '@/mixins/Paginated';
-import SignalRow from '@/components/signals/SignalRow.vue';
+import PublicSignalRow from '@/components/signals/PublicSignalRow.vue';
 import { Signal } from '@/types/signals';
 import ws from '@/modules/ws';
 import { actions } from '@/store/types';
@@ -23,7 +56,7 @@ import { LoadSignalActionType } from '@/types/store/actions';
 
 @Component({
     components: {
-        SignalRow,
+        PublicSignalRow,
     },
     mixins: [LoadableMixin, PaginatedMixin],
 })

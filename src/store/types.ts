@@ -2,7 +2,7 @@ export const mutations = {
     LOADING: 'LOADING',
     SET_USER: 'SET_USER',
     SET_AUTH_TOKEN: 'SET_AUTH_TOKEN',
-    SET_SIGNALS: 'SET_SIGNALS'
+    SET_SIGNALS: 'SET_SIGNALS',
 };
 
 export const actions = {
@@ -11,5 +11,5 @@ export const actions = {
 
     CHECK_AUTH_TOKEN: 'CHECK_AUTH_TOKEN',
 
-    LOAD_SIGNALS: 'LOAD_SIGNALS'
+    LOAD_SIGNALS: 'LOAD_SIGNALS',
 };

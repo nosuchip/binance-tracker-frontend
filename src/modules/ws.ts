@@ -1,10 +1,10 @@
-import ReconnectingWebSocket from "reconnecting-websocket";
-import { Dictionary } from "vue-router/types/router";
-import { Event } from "reconnecting-websocket";
-import loglevel from "loglevel";
+import ReconnectingWebSocket from 'reconnecting-websocket';
+import { Dictionary } from 'vue-router/types/router';
+import { Event } from 'reconnecting-websocket';
+import loglevel from 'loglevel';
 import store from '@/store';
 import _clone from 'lodash/clone';
-import { mutations } from "@/store/types";
+import { mutations } from '@/store/types';
 import { websocketBaseUrl } from '@/config';
 
 export class Websocket {
@@ -16,10 +16,10 @@ export class Websocket {
         this.ws = new ReconnectingWebSocket(uri);
 
         if (onOpen) {
-            this.ws.addEventListener("open", onOpen);
+            this.ws.addEventListener('open', onOpen);
         }
 
-        this.ws.addEventListener("message", ({ data }) => {
+        this.ws.addEventListener('message', ({ data }) => {
             const { event, payload } = JSON.parse(data);
 
             const handler = this.handlers[event];
@@ -30,7 +30,8 @@ export class Websocket {
         });
     }
 
-    send (payload: Dictionary<any>): void {
+    // eslint-disable-next-line
+    send(payload: Dictionary<any>): void {
         if (!payload.id) {
             payload.id = this.messageId++;
         }
@@ -44,16 +45,18 @@ export class Websocket {
         this.ws.send(JSON.stringify(payload));
     }
 
-    on (message: string, handler: Function) {
+    on(message: string, handler: Function) {
         this.handlers[message] = handler;
     }
 }
 
-const ws = new Websocket(websocketBaseUrl, () => { console.log(`Websocket opened`); });
+const ws = new Websocket(websocketBaseUrl, () => {
+    console.log(`Websocket opened`);
+});
 
 let timeout = new Date().getTime();
 
-ws.on('sparkline', ({ sparkline, ticker}: { sparkline: number[], ticker: string}) => {
+ws.on('sparkline', ({ sparkline, ticker }: { sparkline: number[]; ticker: string }) => {
     const now = new Date().getTime();
     if (now - timeout > 1000) {
         timeout = now;

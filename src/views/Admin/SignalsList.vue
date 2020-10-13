@@ -75,7 +75,7 @@ export default class SignalsList extends Mixins<LoadableMixin, PaginatedMixin<Si
         { text: 'Term', value: 'term' },
         { text: 'Volume', value: 'volume' },
         { text: 'Is paid', value: 'paid' },
-        { text: 'Is commentable', value: 'commentsAllowed' },
+        { text: 'Is commentable', value: 'commentable' },
     ];
 
     private async fetch() {

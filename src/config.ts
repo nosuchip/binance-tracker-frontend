@@ -8,9 +8,7 @@ const mandatoryParam = (envVarName: string) => {
     console.log(`Found mandatory environment variable: "${envVarName}"="${value}"`);
 
     return value;
-}
-
+};
 
 export const apiBaseUrl = mandatoryParam('VUE_APP_API_ENDPOINT');
 export const websocketBaseUrl = mandatoryParam('VUE_APP_WS_ENDPOINT');
-

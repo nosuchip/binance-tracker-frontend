@@ -7,5 +7,5 @@ export const state: State = {
     user: null,
     token: null,
 
-    signals: []
+    signals: [],
 };
