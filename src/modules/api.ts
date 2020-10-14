@@ -80,6 +80,10 @@ export const lostSignalPosts = async (signalId: string): Promise<Paginated<Post>
     return axiosInstance.get(`/api/posts/signal/${signalId}`).then(({ data }) => data);
 };
 
+export const uploadSignals = async (signals: Partial<Signal>[]): Promise<{ signalsIds: number[] } > => {
+    return axiosInstance.post(`/api/signals/bulk`, { signals }).then(({ data }) => data);
+};
+
 //
 // Blog-like
 //

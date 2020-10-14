@@ -5,15 +5,7 @@ import Login from '../views/Account/Login.vue';
 import SignalsList from '../views/Admin/SignalsList.vue';
 import SignalEdit from '../views/Admin/SignalEdit.vue';
 import SignalView from '../views/SignalView.vue';
-// import DeviceList from '../views/DeviceList.vue';
-// import Device from '../views/Device.vue';
-// import PricingPlans from '../views/PricingPlans.vue';
-// import PricingPlan from '../views/PricingPlan.vue';
-// import PricingGroups from '../views/PricingGroups.vue';
-// import PricingGroup from '../views/PricingGroup.vue';
-// import PricingUsers from '../views/PricingUsers.vue';
-// import PricingUser from '../views/PricingUser.vue';
-// import PricingResolved from '../views/PricingResolved.vue';
+import SignalsUpload from '../views/Admin/SignalsUpload.vue';
 
 import store from '@/store';
 import { actions } from '@/store/types';
@@ -52,6 +44,17 @@ const routes: Array<RouteConfig> = [
         },
     },
     {
+        path: '/signals/upload',
+        name: 'signals-upload',
+        component: SignalsUpload,
+        meta: {
+            auth: true,
+            showInMenu: true,
+            icon: 'mdi-table-arrow-up',
+            title: 'Signals CSV upload',
+        },
+    },
+    {
         path: '/signal/:signalId',
         name: 'signal-view',
         component: SignalView,
@@ -69,100 +72,6 @@ const routes: Array<RouteConfig> = [
             title: 'Signal',
         },
     },
-    // {
-    //     path: '/devices',
-    //     name: 'devices',
-    //     component: DeviceList,
-    //     meta: {
-    //         auth: true,
-    //         showInMenu: true,
-    //         icon: 'mdi-cellphone-wireless',
-    //         title: 'Devices',
-    //     },
-    // },
-    // {
-    //     path: '/device/:deviceId/',
-    //     name: 'device',
-    //     component: Device,
-    //     meta: {
-    //         auth: true,
-    //         title: 'Device',
-    //     },
-    // },
-    // {
-    //     path: '/subscriptions/price/plans',
-    //     name: 'pricing-plans',
-    //     component: PricingPlans,
-    //     meta: {
-    //         auth: true,
-    //         showInMenu: true,
-    //         title: 'Pricing Plans',
-    //         icon: 'mdi-cash',
-    //     },
-    // },
-    // {
-    //     path: '/subscriptions/price/plans/:planId',
-    //     name: 'pricing-plan',
-    //     component: PricingPlan,
-    //     meta: {
-    //         auth: true,
-    //         showInMenu: false,
-    //         title: 'Pricing Plan',
-    //     },
-    // },
-    // {
-    //     path: '/subscriptions/price/groups',
-    //     name: 'pricing-groups',
-    //     component: PricingGroups,
-    //     meta: {
-    //         auth: true,
-    //         showInMenu: true,
-    //         title: 'Pricing Groups',
-    //         icon: 'mdi-cash-multiple',
-    //     },
-    // },
-    // {
-    //     path: '/subscriptions/price/groups/:groupId',
-    //     name: 'pricing-group',
-    //     component: PricingGroup,
-    //     meta: {
-    //         auth: true,
-    //         showInMenu: false,
-    //         title: 'Pricing Group',
-    //     },
-    // },
-    // {
-    //     path: '/subscriptions/price/users',
-    //     name: 'pricing-users',
-    //     component: PricingUsers,
-    //     meta: {
-    //         auth: true,
-    //         showInMenu: true,
-    //         title: 'Pricing Users',
-    //         icon: 'mdi-cash-usd',
-    //     },
-    // },
-    // {
-    //     path: '/subscriptions/price/users/:userId',
-    //     name: 'pricing-user',
-    //     component: PricingUser,
-    //     meta: {
-    //         auth: true,
-    //         showInMenu: false,
-    //         title: 'Pricing User',
-    //     },
-    // },
-    // {
-    //     path: '/subscriptions/price/resolved',
-    //     name: 'pricing-resolved',
-    //     component: PricingResolved,
-    //     meta: {
-    //         auth: true,
-    //         showInMenu: true,
-    //         title: 'Resolved prices',
-    //         icon: 'mdi-equalizer',
-    //     },
-    // },
 ];
 
 const router = new VueRouter({

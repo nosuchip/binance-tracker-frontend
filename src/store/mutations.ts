@@ -26,5 +26,5 @@ export default {
 
     [mutations.SET_AVAILABLE_SIGNALS]: (state: State, { available }: { available: number[] }) => {
         state.available = available;
-    }
+    },
 };

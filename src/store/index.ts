@@ -32,7 +32,11 @@ store.subscribe((mutation, state) => {
         api.setAuthToken(state.token);
     } else if (type === mutationTypes.SET_AVAILABLE_SIGNALS) {
         const { available } = mutation.payload;
-        console.log(`Mutation ${mutationTypes.SET_AVAILABLE_SIGNALS} subscription with available signals ${available.join(',')}`);
+        console.log(
+            `Mutation ${mutationTypes.SET_AVAILABLE_SIGNALS} subscription with available signals ${available.join(
+                ',',
+            )}`,
+        );
         ws.send({ event: 'subscribe_signals', payload: { signals: available } });
         ws.send({ event: 'subscribe_sparklines', payload: { signals: available } });
 

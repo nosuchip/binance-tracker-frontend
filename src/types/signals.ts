@@ -1,4 +1,4 @@
-import { Dictionary } from "vue-router/types/router";
+import { Dictionary } from 'vue-router/types/router';
 import { Changeable, Timestampable } from './base';
 import { Comment } from './blog';
 

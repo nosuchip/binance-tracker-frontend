@@ -145,7 +145,7 @@ export default class SignalRow extends Mixins<ModelMixin<Signal>>(ModelMixin) {
             const { key, ...rest } = this.model.comment_localized;
 
             if (!rest.title) {
-              rest.title = rest.ticker;
+                rest.title = rest.ticker;
             }
 
             return this.$t(key, rest) as string;

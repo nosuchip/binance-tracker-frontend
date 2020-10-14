@@ -3,7 +3,7 @@ export const mutations = {
     SET_USER: 'SET_USER',
     SET_AUTH_TOKEN: 'SET_AUTH_TOKEN',
     SET_SIGNALS: 'SET_SIGNALS',
-    SET_AVAILABLE_SIGNALS: 'SET_AVAILABLE_SIGNALS'
+    SET_AVAILABLE_SIGNALS: 'SET_AVAILABLE_SIGNALS',
 };
 
 export const actions = {

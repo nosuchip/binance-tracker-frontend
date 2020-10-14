@@ -6,10 +6,10 @@ import ru from './translations/ru.json';
 Vue.use(VueI18n);
 
 export const messages = {
-    ru
-}
+    ru,
+};
 
 export default new VueI18n({
     locale: 'ru',
-    messages
+    messages,
 });

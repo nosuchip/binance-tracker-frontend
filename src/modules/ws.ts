@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { EventEmitter } from "events";
+import { EventEmitter } from 'events';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import { Dictionary } from 'vue-router/types/router';
 import loglevel from 'loglevel';
@@ -7,7 +7,7 @@ import store from '@/store';
 import _clone from 'lodash/clone';
 import { mutations } from '@/store/types';
 import { websocketBaseUrl } from '@/config';
-import { Signal } from "@/types/signals";
+import { Signal } from '@/types/signals';
 
 export class Websocket extends EventEmitter {
     public ws!: ReconnectingWebSocket;
@@ -18,8 +18,12 @@ export class Websocket extends EventEmitter {
 
         this.ws = new ReconnectingWebSocket(uri);
 
-        this.ws.addEventListener('open', () => { this.emit('open'); });
-        this.ws.addEventListener('close', () => { this.emit('close'); });
+        this.ws.addEventListener('open', () => {
+            this.emit('open');
+        });
+        this.ws.addEventListener('close', () => {
+            this.emit('close');
+        });
 
         this.ws.addEventListener('message', ({ data }) => {
             const { event, payload } = JSON.parse(data);
@@ -77,10 +81,10 @@ const updateSignals = (signals: Signal[]) => {
         } else {
             copy.push(signal);
         }
-    })
+    });
 
     store.commit(mutations.SET_SIGNALS, { signals: copy });
-}
+};
 
 ws.on('open', () => {
     console.log(`Websocket (re)connected`);
@@ -96,8 +100,8 @@ ws.on('close', () => {
     console.log(`Websocket disconnected`);
 
     Vue.toasted.error('You are offline, reconnecting...');
-})
+});
 ws.on('signals', updateSignals);
-ws.on('signal', (signal: Signal) => updateSignals([signal]) );
+ws.on('signal', (signal: Signal) => updateSignals([signal]));
 
 export default ws;

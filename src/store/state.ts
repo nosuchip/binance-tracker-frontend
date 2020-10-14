@@ -9,5 +9,5 @@ export const state: State = {
 
     signals: [],
 
-    available: []
+    available: [],
 };
