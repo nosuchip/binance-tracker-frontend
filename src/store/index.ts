@@ -31,7 +31,7 @@ store.subscribe((mutation, state) => {
         console.log(`Mutation ${type} subscription`);
         api.setAuthToken(state.token);
     } else if (type === mutationTypes.SET_AVAILABLE_SIGNALS) {
-        const { available } = mutation.payload;
+        const { available } = payload;
         console.log(
             `Mutation ${mutationTypes.SET_AVAILABLE_SIGNALS} subscription with available signals ${available.join(
                 ',',

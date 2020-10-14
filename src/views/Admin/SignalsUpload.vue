@@ -245,7 +245,7 @@ export default class SignalsUpload extends Vue {
     private parseOrders(ordersStr: string) {
         const pairs = ordersStr.split(/\|/);
 
-        const percentToDecimal = pct => {
+        const percentToDecimal = (pct: string) => {
             if (pct.indexOf('%') === -1) return null;
 
             return parseFloat(pct.replace(/[^0-9]/g, '')) / 100;

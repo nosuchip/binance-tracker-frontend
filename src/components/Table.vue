@@ -126,7 +126,7 @@ export default class Table<T> extends Vue {
         mustSort: false,
     };
 
-    private debounceSearch: number | null = null;
+    private debounceSearch: NodeJS.Timeout | null = null;
     private search = '';
 
     get getClass() {

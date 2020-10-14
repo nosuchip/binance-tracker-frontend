@@ -20,7 +20,7 @@ const routes: Array<RouteConfig> = [
         meta: {
             title: 'Dashboard',
             showInMenu: true,
-            icon: 'mdi-view-dashboard'
+            icon: 'mdi-view-dashboard',
         },
     },
     {

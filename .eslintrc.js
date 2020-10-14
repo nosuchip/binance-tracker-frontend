@@ -18,6 +18,7 @@ module.exports = {
         'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
 
+        '@intlify/vue-i18n/no-missing-keys': 'off',
         '@intlify/vue-i18n/no-dynamic-keys': 'off',
         '@intlify/vue-i18n/no-raw-text': 'off',
         '@intlify/vue-i18n/no-unused-keys': [
