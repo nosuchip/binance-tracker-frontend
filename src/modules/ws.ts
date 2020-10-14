@@ -1,32 +1,29 @@
+import Vue from 'vue';
+import { EventEmitter } from "events";
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import { Dictionary } from 'vue-router/types/router';
-import { Event } from 'reconnecting-websocket';
 import loglevel from 'loglevel';
 import store from '@/store';
 import _clone from 'lodash/clone';
 import { mutations } from '@/store/types';
 import { websocketBaseUrl } from '@/config';
+import { Signal } from "@/types/signals";
 
-export class Websocket {
+export class Websocket extends EventEmitter {
     public ws!: ReconnectingWebSocket;
     private messageId = 1;
-    private handlers: Dictionary<Function> = {};
 
-    constructor(uri: string, onOpen?: (event: Event) => void) {
+    constructor(uri: string) {
+        super();
+
         this.ws = new ReconnectingWebSocket(uri);
 
-        if (onOpen) {
-            this.ws.addEventListener('open', onOpen);
-        }
+        this.ws.addEventListener('open', () => { this.emit('open'); });
+        this.ws.addEventListener('close', () => { this.emit('close'); });
 
         this.ws.addEventListener('message', ({ data }) => {
             const { event, payload } = JSON.parse(data);
-
-            const handler = this.handlers[event];
-
-            if (handler) {
-                handler(payload);
-            }
+            this.emit(event, payload);
         });
     }
 
@@ -44,15 +41,9 @@ export class Websocket {
 
         this.ws.send(JSON.stringify(payload));
     }
-
-    on(message: string, handler: Function) {
-        this.handlers[message] = handler;
-    }
 }
 
-const ws = new Websocket(websocketBaseUrl, () => {
-    console.log(`Websocket opened`);
-});
+const ws = new Websocket(websocketBaseUrl);
 
 let timeout = new Date().getTime();
 
@@ -72,5 +63,41 @@ ws.on('sparkline', ({ sparkline, ticker }: { sparkline: number[]; ticker: string
         store.commit(mutations.SET_SIGNALS, { signals });
     }
 });
+
+const updateSignals = (signals: Signal[]) => {
+    console.log(`WS.updateSignals:: signals = ${JSON.stringify(signals)}`);
+
+    const copy = _clone(store.state.signals);
+
+    signals.forEach(signal => {
+        const index = copy.findIndex(s => s.id === signal.id);
+
+        if (index !== -1) {
+            copy[index] = { ...copy[index], ...signal };
+        } else {
+            copy.push(signal);
+        }
+    })
+
+    store.commit(mutations.SET_SIGNALS, { signals: copy });
+}
+
+ws.on('open', () => {
+    console.log(`Websocket (re)connected`);
+    Vue.toasted.info('You are online now');
+
+    if (store.state.available.length) {
+        console.log(`Resubscribing to existing available signals ${store.state.available.join(',')}`);
+        store.commit(mutations.SET_AVAILABLE_SIGNALS, { available: store.state.available });
+    }
+});
+
+ws.on('close', () => {
+    console.log(`Websocket disconnected`);
+
+    Vue.toasted.error('You are offline, reconnecting...');
+})
+ws.on('signals', updateSignals);
+ws.on('signal', (signal: Signal) => updateSignals([signal]) );
 
 export default ws;

@@ -52,7 +52,7 @@ export const loadSignals = async ({
     perPage,
     filter,
     paid,
-}: QueryParams & { paid?: boolean }): Promise<Paginated<Signal>> => {
+}: QueryParams & { paid?: boolean }): Promise<Paginated<Signal> & { available: number[] }> => {
     return axiosInstance.get('/api/signals', { params: { page, perPage, filter, paid } }).then(({ data }) => data);
 };
 

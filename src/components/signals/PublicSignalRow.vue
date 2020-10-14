@@ -1,5 +1,15 @@
 <template>
     <tr :class="`PublicSignalRow ${odd ? 'odd' : ''}`">
+        <td>
+            <v-tooltip left>
+                <template v-slot:activator="{ on, attrs }">
+                    <v-icon color="grey lighten-1" v-bind="attrs" v-on="on">
+                        mdi-information-variant
+                    </v-icon>
+                </template>
+                <span>{{ tooltip }}</span>
+            </v-tooltip>
+        </td>
         <td>{{ model.title || model.ticker }}</td>
         <td>
             <div class="d-flex flex-column">
@@ -17,16 +27,14 @@
                 <div class="current-price">
                     {{ model.lastPrice || '-' }}
                 </div>
-                <div class="remainings">{{ $t('remains in position') }} {{ remainings }}</div>
+                <div class="remainings">{{ $t('remains in position') }}: {{ remainings }}</div>
             </div>
         </td>
         <td>{{ profitability }}</td>
         <td>
             {{ status }}
             <v-btn icon x-small @click.stop="showSignalStatusHelp = true">
-                <v-icon dark>
-                    mdi-information-outline
-                </v-icon>
+                <v-icon dark>mdi-information-outline</v-icon>
             </v-btn>
             <popup v-model="showSignalStatusHelp" :title="$t('Signal statuses')" :text="$t('statusesHelp')" />
         </td>
@@ -127,7 +135,27 @@ export default class SignalRow extends Mixins<ModelMixin<Signal>>(ModelMixin) {
     }
 
     get remainings() {
-        return !this.model.remaining || isNaN(this.model.remaining as number) ? '-' : `${this.model.remaining * 100}%`;
+        return !this.model.remaining || isNaN(this.model.remaining as number)
+            ? '0'
+            : `${(this.model.remaining * 100).toFixed(2)}%`;
+    }
+
+    get tooltip() {
+        if (this.model.comment_localized) {
+            const { key, ...rest } = this.model.comment_localized;
+
+            if (!rest.title) {
+              rest.title = rest.ticker;
+            }
+
+            return this.$t(key, rest) as string;
+        }
+
+        if (this.model.comment) {
+            return this.model.comment;
+        }
+
+        return this.model.title || this.model.ticker;
     }
 }
 </script>

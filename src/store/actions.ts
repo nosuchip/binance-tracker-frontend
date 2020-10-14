@@ -86,6 +86,7 @@ const loadSignals = async (
     try {
         const result = await api.loadSignals({ page, perPage, filter });
         commit(mutations.SET_SIGNALS, { signals: result.data });
+        commit(mutations.SET_AVAILABLE_SIGNALS, { available: result.available });
 
         return result;
     } catch (error) {

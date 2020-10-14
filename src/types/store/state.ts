@@ -10,6 +10,8 @@ export interface State {
     token: AuthToken;
 
     signals: Signal[];
+
+    available: number[];
 }
 
 export interface ActionState {

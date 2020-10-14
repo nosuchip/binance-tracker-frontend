@@ -8,4 +8,6 @@ export const state: State = {
     token: null,
 
     signals: [],
+
+    available: []
 };

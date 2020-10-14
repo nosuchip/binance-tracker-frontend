@@ -8,6 +8,7 @@ import mutations from './mutations';
 import * as api from '@/modules/api';
 import { mutations as mutationTypes } from './types';
 import getters from './getters';
+import ws from '@/modules/ws';
 
 Vue.use(Vuex);
 
@@ -24,8 +25,18 @@ const store = new Vuex.Store<State>({
 });
 
 store.subscribe((mutation, state) => {
-    if (mutation.type === mutationTypes.SET_AUTH_TOKEN) {
+    const { type, payload } = mutation;
+
+    if (type === mutationTypes.SET_AUTH_TOKEN) {
+        console.log(`Mutation ${type} subscription`);
         api.setAuthToken(state.token);
+    } else if (type === mutationTypes.SET_AVAILABLE_SIGNALS) {
+        const { available } = mutation.payload;
+        console.log(`Mutation ${mutationTypes.SET_AVAILABLE_SIGNALS} subscription with available signals ${available.join(',')}`);
+        ws.send({ event: 'subscribe_signals', payload: { signals: available } });
+        ws.send({ event: 'subscribe_sparklines', payload: { signals: available } });
+
+        Vue.toasted.success('Subscribed to signals');
     }
 });
 

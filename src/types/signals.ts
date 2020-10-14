@@ -1,5 +1,10 @@
+import { Dictionary } from "vue-router/types/router";
 import { Changeable, Timestampable } from './base';
 import { Comment } from './blog';
+
+export interface LocalizedComment extends Dictionary<string> {
+    key: string;
+}
 
 export interface EntryPoint extends Changeable, Timestampable {
     id: number;
@@ -45,6 +50,8 @@ export interface Signal extends Changeable, Timestampable {
 
     priceStatus?: '' | 'above' | 'below';
     sparkline?: number[];
+    comment?: string;
+    comment_localized?: LocalizedComment;
 }
 
 export const defaultEntryPoint = (overrides = {}) => ({
