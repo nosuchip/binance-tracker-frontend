@@ -14,7 +14,6 @@
     font-size: 10px;
 
     .closed {
-        text-decoration: line-through;
         color: green;
     }
 }
