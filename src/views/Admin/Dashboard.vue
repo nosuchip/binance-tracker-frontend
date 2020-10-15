@@ -9,6 +9,9 @@
                         <th class="currency-head">
                             {{ $t('Currency') }}
                         </th>
+                        <th class="type-head">
+                            {{ $t('Type') }}
+                        </th>
                         <th class="channel-head">
                             {{ $t('Channel') }}
                         </th>

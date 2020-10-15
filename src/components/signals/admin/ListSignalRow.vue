@@ -1,6 +1,7 @@
 <template>
     <tr :class="`ListSignalRow ${odd ? 'odd' : ''}`" @click="handleClick">
         <td class="ticker-cell">{{ model.title || model.ticker }}</td>
+        <td class="ticker-cell">{{ model.type }}</td>
         <td class="channel-cell">{{ model.channel || '-' }}</td>
         <td>
             <div class="d-flex flex-column">
