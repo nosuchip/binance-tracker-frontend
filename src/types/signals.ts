@@ -89,6 +89,7 @@ export const defaultSignal = (override = {}): Signal => ({
     profitability: 0,
     ticker: '',
     title: '',
+    channel: '',
     price: 0,
     type: 'long',
     risk: 'low',
