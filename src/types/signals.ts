@@ -1,9 +1,9 @@
-import { Dictionary } from 'vue-router/types/router';
-import { Changeable, Timestampable } from './base';
+import { Changeable, Dictionary, Timestampable } from './base';
 import { Comment } from './blog';
 
-export interface LocalizedComment extends Dictionary<string> {
+export interface LocalizedComment extends Dictionary {
     key: string;
+    ordersIds?: number[];
 }
 
 export interface EntryPoint extends Changeable, Timestampable {

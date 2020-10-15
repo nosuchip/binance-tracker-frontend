@@ -1,15 +1,5 @@
 <template>
     <tr :class="`PublicSignalRow ${odd ? 'odd' : ''}`">
-        <td>
-            <v-tooltip left>
-                <template v-slot:activator="{ on, attrs }">
-                    <v-icon color="grey lighten-1" v-bind="attrs" v-on="on">
-                        mdi-information-variant
-                    </v-icon>
-                </template>
-                <span>{{ tooltip }}</span>
-            </v-tooltip>
-        </td>
         <td>{{ model.title || model.ticker }}</td>
         <td>
             <div class="d-flex flex-column">
@@ -31,6 +21,19 @@
             </div>
         </td>
         <td>{{ profitability }}</td>
+
+        <td>
+            <template v-for="(order, index) in model.takeProfitOrders">
+                <public-signal-order :order="order" :closed="isOrderClosed(order.id)" :key="index" />
+            </template>
+        </td>
+
+        <td>
+            <template v-for="(order, index) in model.stopLossOrders">
+                <public-signal-order :order="order" :closed="isOrderClosed(order.id)" :key="index" />
+            </template>
+        </td>
+
         <td>
             {{ status }}
             <v-btn icon x-small @click.stop="showSignalStatusHelp = true">
@@ -91,10 +94,12 @@ import _get from 'lodash/get';
 import { State } from 'vuex-class';
 import { UserInfo } from '@/types/user-info';
 import Popup from '@/components/Popup.vue';
+import PublicSignalOrder from '@/components/signals/PublicSignalOrder.vue';
 
 @Component({
     components: {
         Popup,
+        PublicSignalOrder,
     },
     mixins: [ModelMixin],
 })
@@ -140,22 +145,8 @@ export default class SignalRow extends Mixins<ModelMixin<Signal>>(ModelMixin) {
             : `${(this.model.remaining * 100).toFixed(2)}%`;
     }
 
-    get tooltip() {
-        if (this.model.comment_localized) {
-            const { key, ...rest } = this.model.comment_localized;
-
-            if (!rest.title) {
-                rest.title = rest.ticker;
-            }
-
-            return this.$t(key, rest) as string;
-        }
-
-        if (this.model.comment) {
-            return this.model.comment;
-        }
-
-        return this.model.title || this.model.ticker;
+    isOrderClosed(orderId: number) {
+        return (this.model.comment_localized?.ordersIds || []).includes(orderId);
     }
 }
 </script>

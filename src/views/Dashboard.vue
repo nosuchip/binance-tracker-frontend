@@ -6,23 +6,28 @@
             <template v-slot:default>
                 <thead>
                     <tr>
-                        <th class="info-cell"></th>
-                        <th class="currency">
+                        <th class="currency-head">
                             {{ $t('Currency') }}
                         </th>
-                        <th class="published-at">
+                        <th class="published-at-head">
                             {{ $t('Published') }}
                         </th>
-                        <th class="entry-price">
+                        <th class="entry-price-head">
                             {{ $t('Entry price') }}
                         </th>
-                        <th class="current-price">
+                        <th class="current-price-head">
                             {{ $t('Current price') }}
                         </th>
-                        <th class="profitability">
+                        <th class="profitability-head">
                             {{ $t('Profitability') }}
                         </th>
-                        <th class="status">
+                        <th class="takeprofit-head">
+                            {{ $t('Take profit') }}
+                        </th>
+                        <th class="stoploss-head">
+                            {{ $t('Stop loss') }}
+                        </th>
+                        <th class="status-head">
                             {{ $t('Status') }}
                         </th>
                         <th></th>
