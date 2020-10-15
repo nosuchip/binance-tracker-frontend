@@ -1,6 +1,7 @@
 <template>
     <tr :class="`PublicSignalRow ${odd ? 'odd' : ''}`">
-        <td>{{ model.title || model.ticker }}</td>
+        <td class="ticker-cell">{{ model.title || model.ticker }}</td>
+        <td class="channel-cell">{{ model.channel || '-' }}</td>
         <td>
             <div class="d-flex flex-column">
                 <div class="published-at-data">
@@ -11,8 +12,8 @@
                 </div>
             </div>
         </td>
-        <td>{{ model.price || '-' }}</td>
-        <td>
+        <td class="price-cell">{{ model.price || '-' }}</td>
+        <td class="current-price-cell">
             <div class="d-flex flex-column">
                 <div class="current-price">
                     {{ model.lastPrice || '-' }}
@@ -20,7 +21,7 @@
                 <div class="remainings">{{ $t('remains in position') }}: {{ remainings }}</div>
             </div>
         </td>
-        <td>{{ profitability }}</td>
+        <td class="profitability-cell">{{ profitability }}</td>
 
         <td>
             <template v-for="(order, index) in model.takeProfitOrders">
@@ -60,8 +61,26 @@
 
 <style lang="scss" scoped>
 .PublicSignalRow {
-    td {
+    ::v-deep td {
         text-align: right;
+        padding: 4px !important;
+        font-size: 12px !important;
+
+        &.ticker-cell {
+            width: 50px !important;
+        }
+
+        &.profitability-cell {
+            width: 50px !important;
+        }
+
+        &.price-cell {
+            width: 100px;
+        }
+
+        &.current-price-cell {
+            width: 130px;
+        }
     }
 
     .updated-at-data,

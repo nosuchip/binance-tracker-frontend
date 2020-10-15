@@ -30,6 +30,7 @@ export interface Signal extends Changeable, Timestampable {
     profitability: number;
     ticker: string;
     title: string;
+    channel: string;
     price: number;
     type: 'short' | 'long';
     risk: 'high' | 'medium' | 'low';

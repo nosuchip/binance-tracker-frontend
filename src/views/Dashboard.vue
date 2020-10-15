@@ -9,6 +9,9 @@
                         <th class="currency-head">
                             {{ $t('Currency') }}
                         </th>
+                        <th class="channel-head">
+                            {{ $t('Channel') }}
+                        </th>
                         <th class="published-at-head">
                             {{ $t('Published') }}
                         </th>
@@ -46,8 +49,13 @@
 
 <style lang="scss" scoped>
 .Dashboard {
-    th {
-        text-align: right !important;
+    ::v-deep table {
+        padding: 4px;
+
+        th {
+            text-align: center !important;
+            padding: 4px !important;
+        }
     }
 }
 </style>

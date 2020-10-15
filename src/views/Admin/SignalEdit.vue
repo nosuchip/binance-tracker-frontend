@@ -204,24 +204,24 @@ export default class SignalEdit extends Mixins<LoadableMixin>(LoadableMixin) {
             this.entryPointError = this.$t('edit.entry_point_must_exists') as string;
         }
 
-        // const hasTP = this.signal.takeProfitOrders.length > 0;
-        // if (!hasTP) {
-        //     this.takeProfitError = this.$t('edit.take_profit_must_exists') as string;
-        // }
+        const hasTP = this.signal.takeProfitOrders.length > 0;
+        if (!hasTP) {
+            this.takeProfitError = this.$t('edit.take_profit_must_exists') as string;
+        }
 
-        // const hasTSL = this.signal.stopLossOrders.length > 0;
-        // if (!hasTSL) {
-        //     this.stopLossError = this.$t('edit.stop_loss_must_exists') as string;
-        // }
+        const hasSL = this.signal.stopLossOrders.length > 0;
+        if (!hasSL) {
+            this.stopLossError = this.$t('edit.stop_loss_must_exists') as string;
+        }
 
         if (this.entryPointError || this.takeProfitError || this.stopLossError) {
             return false;
         }
 
-        // const sumTP = this.signal.takeProfitOrders.reduce((total, tp) => (total += tp.volume), 0);
-        // if (sumTP !== 1) {
-        //     this.takeProfitError = this.$t('edit.take_profit_must_be_1') as string;
-        // }
+        const sumTP = this.signal.takeProfitOrders.reduce((total, tp) => (total += tp.volume), 0);
+        if (sumTP !== 1) {
+            this.takeProfitError = this.$t('edit.take_profit_must_be_1') as string;
+        }
 
         const sumSL = this.signal.stopLossOrders.reduce((total, sl) => (total += sl.volume), 0);
         if (sumSL !== 1) {
@@ -275,6 +275,7 @@ export default class SignalEdit extends Mixins<LoadableMixin>(LoadableMixin) {
             profitability: parseFloat(this.signal.profitability.toString()) || 0,
             ticker: this.signal.ticker,
             title: this.signal.title || this.signal.ticker,
+            channel: this.signal.channel || '',
             price: parseFloat(this.signal.price.toString()) || 0,
             type: this.signal.type,
             risk: this.signal.risk,

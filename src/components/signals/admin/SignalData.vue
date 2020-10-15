@@ -23,6 +23,16 @@
             </v-col>
 
             <v-col cols="12">
+                <v-text-field
+                    v-model="model.channel"
+                    :label="$t('Channel')"
+                    :hint="$t('edit.channel_hint')"
+                    persistent-hint
+                    :disabled="disabled"
+                ></v-text-field>
+            </v-col>
+
+            <v-col cols="12">
                 <v-select
                     :label="$t('Type')"
                     v-model="model.type"
