@@ -1,15 +1,16 @@
+export interface Pagination {
+    page: number;
+    prev: number;
+    next: number;
+    perPage: number;
+    total: number;
+
+    hasNext: boolean;
+    hasPrev: boolean;
+}
+
 export interface Paginated<T> {
-    pagination: {
-        page: number;
-        prev: number;
-        next: number;
-        perPage: number;
-        total: number;
-
-        hasNext: boolean;
-        hasPrev: boolean;
-    };
-
+    pagination: Pagination;
     data: T[];
 }
 

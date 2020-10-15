@@ -18,8 +18,8 @@
                         <th class="entry-price-head">
                             {{ $t('Entry price') }}
                         </th>
-                        <th class="current-price-head">
-                            {{ $t('Current price') }}
+                        <th class="last-triggered-price-head">
+                            {{ $t('Triggered price') }}
                         </th>
                         <th class="profitability-head">
                             {{ $t('Profitability') }}
@@ -33,17 +33,18 @@
                         <th class="status-head">
                             {{ $t('Status') }}
                         </th>
-                        <th></th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <template v-for="(signal, index) in signals">
-                        <public-signal-row :key="index" :value="signal" :odd="!(index % 2)"></public-signal-row>
+                        <list-signal-row :key="index" :value="signal" :odd="!(index % 2)"></list-signal-row>
                     </template>
                 </tbody>
             </template>
         </v-simple-table>
+
+        <custom-pagination v-model="pagination" :onPage="handlePage" />
     </v-container>
 </template>
 
@@ -64,7 +65,8 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import LoadableMixin from '@/mixins/Loadable';
 import PaginatedMixin from '@/mixins/Paginated';
-import PublicSignalRow from '@/components/signals/PublicSignalRow.vue';
+import ListSignalRow from '@/components/signals/admin/ListSignalRow.vue';
+import CustomPagination from '@/components/Pagination.vue';
 import { Signal } from '@/types/signals';
 import { actions } from '@/store/types';
 import { Action, State } from 'vuex-class';
@@ -72,7 +74,8 @@ import { LoadSignalActionType } from '@/types/store/actions';
 
 @Component({
     components: {
-        PublicSignalRow,
+        ListSignalRow,
+        CustomPagination,
     },
     mixins: [LoadableMixin, PaginatedMixin],
 })
@@ -108,6 +111,15 @@ export default class Dashboard extends Mixins<LoadableMixin, PaginatedMixin<Sign
         } finally {
             this.setLoading(false);
         }
+    }
+
+    handlePage(page: number) {
+        this.pagination = {
+            ...this.pagination,
+            page,
+        };
+
+        this.fetch();
     }
 
     mounted() {

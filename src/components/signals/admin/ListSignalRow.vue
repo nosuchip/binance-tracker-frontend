@@ -1,15 +1,17 @@
 <template>
-    <tr :class="`PublicSignalRow ${odd ? 'odd' : ''}`">
+    <tr :class="`ListSignalRow ${odd ? 'odd' : ''}`" @click="handleClick">
         <td class="ticker-cell">{{ model.title || model.ticker }}</td>
         <td class="channel-cell">{{ model.channel || '-' }}</td>
         <td>
             <div class="d-flex flex-column">
                 <div class="published-at-data">
-                    {{ model.createdAt | dayjs('format', 'HH:mm DD.MM.YYYY') }}
+                    {{ model.createdAt | dayjs('format', 'HH:mm DD.MM.YY') }}
                 </div>
+                <!--
                 <div class="updated-at-data font-small">
-                    {{ $t('updated at') }} {{ model.updatedAt | dayjs('format', 'HH:mm DD.MM.YYYY') }}
+                    {{ $t('updated at') }} {{ model.updatedAt | dayjs('format', 'HH:mm DD.MM.YY') }}
                 </div>
+                -->
             </div>
         </td>
         <td class="price-cell">{{ model.price || '-' }}</td>
@@ -25,13 +27,13 @@
 
         <td>
             <template v-for="(order, index) in model.takeProfitOrders">
-                <public-signal-order :order="order" :closed="isOrderClosed(order.id)" :key="index" />
+                <list-order-row :order="order" :key="index" />
             </template>
         </td>
 
         <td>
             <template v-for="(order, index) in model.stopLossOrders">
-                <public-signal-order :order="order" :closed="isOrderClosed(order.id)" :key="index" />
+                <list-order-row :order="order" :key="index" />
             </template>
         </td>
 
@@ -42,25 +44,13 @@
             </v-btn>
             <popup v-model="showSignalStatusHelp" :title="$t('Signal statuses')" :text="$t('statusesHelp')" />
         </td>
-        <td class="details">
-            <v-badge color="green" overlap :content="comments">
-                <v-btn
-                    :disabled="!accessible"
-                    small
-                    color="warning"
-                    class="details-button"
-                    :to="accessible ? { name: 'signal-view', params: { signalId: model.id } } : ''"
-                >
-                    <v-icon small v-if="!accessible">mdi-lock</v-icon>
-                    {{ $t('Details') }}
-                </v-btn>
-            </v-badge>
-        </td>
     </tr>
 </template>
 
 <style lang="scss" scoped>
-.PublicSignalRow {
+.ListSignalRow {
+    cursor: pointer;
+
     ::v-deep td {
         text-align: right;
         padding: 4px !important;
@@ -109,35 +99,21 @@
 import { Component, Mixins, Prop } from 'vue-property-decorator';
 import ModelMixin from '@/mixins/ModelMixin';
 import { Signal } from '@/types/signals';
-import _get from 'lodash/get';
-import { State } from 'vuex-class';
-import { UserInfo } from '@/types/user-info';
 import Popup from '@/components/Popup.vue';
-import PublicSignalOrder from '@/components/signals/PublicSignalOrder.vue';
+import ListOrderRow from '@/components/signals/admin/ListOrderRow.vue';
 
 @Component({
     components: {
         Popup,
-        PublicSignalOrder,
+        ListOrderRow,
     },
     mixins: [ModelMixin],
 })
-export default class SignalRow extends Mixins<ModelMixin<Signal>>(ModelMixin) {
+export default class ListSignalRow extends Mixins<ModelMixin<Signal>>(ModelMixin) {
     private showSignalStatusHelp = false;
-
-    @State('user')
-    user!: UserInfo | null;
 
     @Prop({ default: false })
     odd!: boolean;
-
-    get comments() {
-        return (_get(this.model.comments, 'length') || 0).toString();
-    }
-
-    get accessible() {
-        return !this.model.paid || (this.user && ['admin', 'paid user'].includes(this.user.role));
-    }
 
     get status() {
         const mapping = {
@@ -164,8 +140,8 @@ export default class SignalRow extends Mixins<ModelMixin<Signal>>(ModelMixin) {
             : `${(this.model.remaining * 100).toFixed(2)}%`;
     }
 
-    isOrderClosed(orderId: number) {
-        return (this.model.comment_localized?.ordersIds || []).includes(orderId);
+    handleClick() {
+        this.$router.push({ name: 'signal-edit', params: { signalId: `${this.model.id}` } });
     }
 }
 </script>

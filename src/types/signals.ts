@@ -20,6 +20,8 @@ export interface Order extends Changeable, Timestampable {
     comment: string;
     signalId: number;
     type: 'take profit' | 'stop loss';
+    closed?: boolean;
+    closedVolume?: number;
 }
 
 export interface Signal extends Changeable, Timestampable {
