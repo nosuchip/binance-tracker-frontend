@@ -3,26 +3,36 @@
         <v-col>
             <v-card>
                 <v-card-title>
-                    {{ title }}
-                    <v-btn icon color="green" @click="handleRefresh">
-                        <v-icon>mdi-cached</v-icon>
-                    </v-btn>
+                    <slot name="title">
+                        {{ title }}
+                    </slot>
 
-                    <v-btn icon color="info" v-if="newItemUrl" :to="newItemUrl">
-                        <v-icon>mdi-plus</v-icon>
-                    </v-btn>
+                    <slot name="button-refresh">
+                        <v-btn icon color="green" @click="handleRefresh">
+                            <v-icon>mdi-cached</v-icon>
+                        </v-btn>
+                    </slot>
+
+                    <slot name="button-add">
+                        <v-btn icon color="info" v-if="newItemUrl" :to="newItemUrl">
+                            <v-icon>mdi-plus</v-icon>
+                        </v-btn>
+                    </slot>
+
                     <slot name="toolbar"></slot>
 
                     <v-spacer></v-spacer>
 
                     <slot name="search">
                         <v-text-field
+                            class="search"
                             v-if="!disableSearch"
                             v-model="search"
                             append-icon="mdi-magnify"
                             label="Search"
                             single-line
                             hide-details
+                            @keyup="searchChanged"
                             @click:append="searchChanged"
                         ></v-text-field>
                     </slot>
@@ -37,8 +47,12 @@
                     :server-items-length="total"
                     @click:row="handleRowClick"
                 >
-                    <template v-for="(sl, index) in itemSlots" v-slot:[sl.name]="props">
-                        <div :key="index" v-html="sl.template(props)" />
+                    <!-- Pass on all named slots -->
+                    <slot v-for="slot in Object.keys($slots)" :name="slot" :slot="slot" :props="props" />
+
+                    <!-- Pass on all scoped slots -->
+                    <template v-for="slot in Object.keys($scopedSlots)" :slot="slot" slot-scope="scope">
+                        <slot :name="slot" v-bind="scope" />
                     </template>
                 </v-data-table>
             </v-card>
@@ -57,6 +71,7 @@
 </style>
 
 <script lang="ts">
+import { Debounce } from '@/modules/decorators';
 import { DEFAULT_PAGE_SIZE } from '@/types/pagination';
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import { DataOptions, DataTableHeader } from 'vuetify';
@@ -126,7 +141,6 @@ export default class Table<T> extends Vue {
         mustSort: false,
     };
 
-    private debounceSearch: NodeJS.Timeout | null = null;
     private search = '';
 
     get getClass() {
@@ -175,16 +189,10 @@ export default class Table<T> extends Vue {
     }
 
     @Watch('search')
+    @Debounce(500)
     private searchChanged() {
         if (this.onSearchChange) {
-            if (this.debounceSearch) {
-                clearTimeout(this.debounceSearch);
-                this.debounceSearch = null;
-            }
-
-            this.debounceSearch = setTimeout(() => {
-                this.onSearchChange(this.search);
-            }, 500);
+            this.onSearchChange(this.search);
         }
     }
 }
