@@ -17,6 +17,7 @@
             </div>
         </td>
         <td class="price-cell">{{ model.price || '-' }}</td>
+        <td class="exit-price-cell">{{ model.exitPrice || '-' }}</td>
         <td class="current-price-cell">
             <div class="d-flex flex-column">
                 <div class="current-price">
@@ -129,11 +130,7 @@ export default class ListSignalRow extends Mixins<ModelMixin<Signal>>(ModelMixin
     }
 
     get profitability() {
-        if (!this.model.profitability || !this.model.price) {
-            return '-';
-        }
-
-        return ((this.model.profitability / this.model.price - 1) * 100).toFixed(3) + '%';
+        return this.model.profitability ? `${this.model.profitability.toFixed(3)}%` : '-';
     }
 
     get remainings() {

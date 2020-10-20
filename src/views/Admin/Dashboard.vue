@@ -83,6 +83,7 @@ export default class Dashboard extends Mixins<LoadableMixin, PaginatedMixin<Sign
         { text: this.$t('Channel'), value: 'channel' },
         { text: this.$t('Published'), value: 'createdAt' },
         { text: this.$t('Entry price'), value: 'price' },
+        { text: this.$t('Current exit price'), value: 'price' },
         { text: this.$t('Triggered price'), value: 'price' },
         { text: this.$t('Profitability'), value: 'profitability' },
         { text: this.$t('Take profit'), value: '' },
