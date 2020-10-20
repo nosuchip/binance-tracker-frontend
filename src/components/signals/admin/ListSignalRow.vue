@@ -16,8 +16,8 @@
                 -->
             </div>
         </td>
-        <td class="price-cell">{{ model.price || '-' }}</td>
-        <td class="exit-price-cell">{{ model.exitPrice || '-' }}</td>
+        <td class="price-cell">{{ formatPrice(model.price) || '-' }}</td>
+        <td class="exit-price-cell">{{ formatPrice(model.exitPrice) || '-' }}</td>
         <td class="current-price-cell">
             <div class="d-flex flex-column">
                 <div class="current-price">
@@ -141,6 +141,14 @@ export default class ListSignalRow extends Mixins<ModelMixin<Signal>>(ModelMixin
 
     handleClick() {
         this.$router.push({ name: 'signal-edit', params: { signalId: `${this.model.id}` } });
+    }
+
+    formatPrice(price: number) {
+        if (!price || !price.toFixed) {
+            return '-';
+        }
+
+        return price.toFixed(10).replace(/0+$/, '');
     }
 }
 </script>
