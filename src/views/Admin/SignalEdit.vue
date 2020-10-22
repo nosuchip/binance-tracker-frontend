@@ -269,13 +269,17 @@ export default class SignalEdit extends Mixins<LoadableMixin>(LoadableMixin) {
             return;
         }
 
+        const channel = this.signal.channel || { name: '' };
+
         const payload = {
             id: this.signal.id,
             status: this.signal.status || 'active',
             profitability: parseFloat(this.signal.profitability.toString()) || 0,
             ticker: this.signal.ticker,
             title: this.signal.title || this.signal.ticker,
-            channel: this.signal.channel || '',
+            channel: {
+                name: channel.name || '',
+            },
             price: parseFloat(this.signal.price.toString()) || 0,
             type: this.signal.type,
             risk: this.signal.risk,

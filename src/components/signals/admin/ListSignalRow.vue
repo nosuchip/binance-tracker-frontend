@@ -3,7 +3,7 @@
         <td class="id-cell">{{ model.id }}</td>
         <td class="ticker-cell">{{ model.title || model.ticker }}</td>
         <td class="ticker-cell">{{ model.type }}</td>
-        <td class="channel-cell">{{ model.channel || '-' }}</td>
+        <td class="channel-cell">{{ channel }}</td>
         <td>
             <div class="d-flex flex-column">
                 <div class="published-at-data">
@@ -137,6 +137,10 @@ export default class ListSignalRow extends Mixins<ModelMixin<Signal>>(ModelMixin
         return !this.model.remaining || isNaN(this.model.remaining as number)
             ? '0'
             : `${(this.model.remaining * 100).toFixed(2)}%`;
+    }
+
+    get channel() {
+        return this.model && this.model.channel ? this.model.channel.name : '-';
     }
 
     handleClick() {

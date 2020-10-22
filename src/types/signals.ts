@@ -24,6 +24,12 @@ export interface Order extends Changeable, Timestampable {
     closedVolume?: number;
 }
 
+export interface Channel extends Timestampable {
+    id?: number;
+    name: string;
+    description?: string;
+}
+
 export interface Signal extends Changeable, Timestampable {
     id: number;
     userId: number;
@@ -32,7 +38,7 @@ export interface Signal extends Changeable, Timestampable {
     profitability: number;
     ticker: string;
     title: string;
-    channel: string;
+    channel?: Channel;
     price: number;
     type: 'short' | 'long';
     risk: 'high' | 'medium' | 'low';
@@ -91,7 +97,9 @@ export const defaultSignal = (override = {}): Signal => ({
     profitability: 0,
     ticker: '',
     title: '',
-    channel: '',
+    channel: {
+        name: '',
+    },
     price: 0,
     type: 'long',
     risk: 'low',
