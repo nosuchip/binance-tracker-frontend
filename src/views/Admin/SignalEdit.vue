@@ -116,7 +116,7 @@ import SignalData from '@/components/signals/admin/SignalData.vue';
 import SignalEditPanel from '@/components/signals/admin/SignalEditPanel.vue';
 import SignalEntryPoint from '@/components/signals/admin/SignalEntryPoint.vue';
 import SignalOrder from '@/components/signals/admin/SignalOrder.vue';
-import { Validateable } from '@/types/base';
+import { Dictionary, Validateable } from '@/types/base';
 
 @Component({
     components: {
@@ -269,17 +269,12 @@ export default class SignalEdit extends Mixins<LoadableMixin>(LoadableMixin) {
             return;
         }
 
-        const channel = this.signal.channel || { name: '' };
-
-        const payload = {
+        const payload: Dictionary = {
             id: this.signal.id,
             status: this.signal.status || 'active',
             profitability: parseFloat(this.signal.profitability.toString()) || 0,
             ticker: this.signal.ticker,
             title: this.signal.title || this.signal.ticker,
-            channel: {
-                name: channel.name || '',
-            },
             price: parseFloat(this.signal.price.toString()) || 0,
             type: this.signal.type,
             risk: this.signal.risk,
@@ -290,19 +285,51 @@ export default class SignalEdit extends Mixins<LoadableMixin>(LoadableMixin) {
             date: this.signal.date || new Date(),
             post: this.signal.post || '',
             comments: [],
-            entryPoints: this.signal.entryPoints || [],
-            takeProfitOrders: this.signal.takeProfitOrders || [],
-            stopLossOrders: this.signal.stopLossOrders || [],
         };
+
+        if (this.signal.channel && this.signal.channel.name) {
+            payload.channel = { name: this.signal.channel.name };
+        } else {
+            delete payload.channel;
+        }
+
+        payload.entryPoints = (this.signal.entryPoints || []).map(ep => ({
+            signalId: ep.signalId,
+            price: ep.price,
+            comment: ep.comment || '',
+        }));
+
+        payload.takeProfitOrders = (this.signal.takeProfitOrders || []).map(o => ({
+            signalId: o.signalId,
+            price: o.price,
+            volume: o.volume,
+            type: o.type,
+            comment: o.comment || '',
+        }));
+
+        payload.stopLossOrders = (this.signal.stopLossOrders || []).map(o => ({
+            signalId: o.signalId,
+            price: o.price,
+            volume: o.volume,
+            type: o.type,
+            comment: o.comment || '',
+        }));
 
         this.setLoading(true);
 
+        let updatedSignal = null;
+
         try {
             if (payload.id) {
-                this.signal = await api.updateSignal(payload);
+                ({ signal: updatedSignal } = await api.updateSignal(payload));
             } else {
-                this.signal = await api.createSignal(payload);
+                ({ signal: updatedSignal } = await api.createSignal(payload));
             }
+
+            console.log(`>>>> 0`, updatedSignal);
+            console.log(`>>>> 1`, defaultSignal(updatedSignal));
+
+            this.signal = defaultSignal(updatedSignal);
 
             this.$toasted.success('Signal saved');
         } catch (error) {

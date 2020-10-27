@@ -91,30 +91,38 @@ export const defaultStopLoss = (overrides = {}) => ({
     ...overrides,
 });
 
-export const defaultSignal = (override = {}): Signal => ({
-    id: 0,
-    status: 'delayed',
-    profitability: 0,
-    ticker: '',
-    title: '',
-    channel: {
-        name: '',
-    },
-    price: 0,
-    type: 'long',
-    risk: 'low',
-    term: 'long',
-    volume: 0,
-    paid: false,
-    commentable: true,
+export const defaultSignal = (override = {}): Signal => {
+    const data = {
+        id: 0,
+        status: 'delayed' as 'delayed',
+        profitability: 0,
+        ticker: '',
+        title: '',
+        channel: {
+            name: '',
+        },
+        price: 0,
+        type: 'long' as 'long',
+        risk: 'low' as 'low',
+        term: 'long' as 'long',
+        volume: 0,
+        paid: false,
+        commentable: true,
 
-    remaining: 1,
+        remaining: 1,
 
-    userId: 0,
-    comments: [],
-    entryPoints: [],
-    takeProfitOrders: [],
-    stopLossOrders: [],
+        userId: 0,
+        comments: [],
+        entryPoints: [],
+        takeProfitOrders: [],
+        stopLossOrders: [],
 
-    ...override,
-});
+        ...override,
+    };
+
+    if (!data.channel) {
+        data.channel = { name: '' };
+    }
+
+    return data;
+};

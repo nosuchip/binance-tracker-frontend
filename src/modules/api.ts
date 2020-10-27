@@ -11,6 +11,14 @@ export interface QueryParams {
     filter?: string;
 }
 
+export interface ApiResponse {
+    success: boolean;
+}
+
+export interface ApiSignalResponse extends ApiResponse {
+    signal: Signal;
+}
+
 export const axiosInstance = axios.create({
     baseURL: apiBaseUrl,
     // timeout: 1000,
@@ -60,11 +68,11 @@ export const loadSignal = async (signalId: string): Promise<{ signal: Signal; co
     return axiosInstance.get(`/api/signals/${signalId}`).then(({ data }) => data);
 };
 
-export const createSignal = async (signal: Partial<Signal>): Promise<Signal> => {
+export const createSignal = async (signal: Partial<Signal>): Promise<ApiSignalResponse> => {
     return axiosInstance.post(`/api/signals`, signal).then(({ data }) => data);
 };
 
-export const updateSignal = async (signal: Partial<Signal>): Promise<Signal> => {
+export const updateSignal = async (signal: Partial<Signal>): Promise<ApiSignalResponse> => {
     return axiosInstance.put(`/api/signals/${signal.id}`, signal).then(({ data }) => data);
 };
 
