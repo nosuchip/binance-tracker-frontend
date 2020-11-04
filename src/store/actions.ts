@@ -78,7 +78,7 @@ const checkAuthToken = async (
 };
 
 const loadSignals = async (
-    { state, commit }: ActionState,
+    { commit }: ActionState,
     { page, perPage, filter }: api.QueryParams,
 ): Promise<Paginated<Signal> | undefined> => {
     console.log('ACTION loadUserInfo');

@@ -24,7 +24,7 @@
 
             <v-col cols="12">
                 <v-combobox
-                    v-model="model.channel"
+                    v-model="model.channel.name"
                     :label="$t('Channel')"
                     :hint="$t('edit.channel_hint')"
                     persistent-hint

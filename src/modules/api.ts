@@ -64,7 +64,9 @@ export const loadSignals = async ({
     return axiosInstance.get('/api/signals', { params: { page, perPage, filter, paid } }).then(({ data }) => data);
 };
 
-export const loadSignal = async (signalId: string): Promise<{ signal: Signal; comments: Comment[], channels: Channel[] }> => {
+export const loadSignal = async (
+    signalId: string,
+): Promise<{ signal: Signal; comments: Comment[]; channels: Channel[] }> => {
     return axiosInstance.get(`/api/signals/${signalId}`).then(({ data }) => data);
 };
 
