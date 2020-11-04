@@ -23,13 +23,13 @@
             </v-col>
 
             <v-col cols="12">
-                <v-text-field
-                    v-model="model.channel.name"
+                <v-combobox
+                    v-model="model.channel"
                     :label="$t('Channel')"
                     :hint="$t('edit.channel_hint')"
                     persistent-hint
                     :disabled="disabled"
-                ></v-text-field>
+                ></v-combobox>
             </v-col>
 
             <v-col cols="12">
@@ -108,7 +108,7 @@
 import { Component, Mixins, Prop } from 'vue-property-decorator';
 import ModelMixin from '@/mixins/ModelMixin';
 import ValidateableMixin from '@/mixins/ValidateableMixin';
-import { Signal } from '@/types/signals';
+import { Channel, Signal } from '@/types/signals';
 import Popup from '@/components/Popup.vue';
 
 @Component({
@@ -138,5 +138,8 @@ export default class SignalData extends Mixins<ModelMixin<Signal>, ValidateableM
 
     @Prop({ type: Boolean, required: false })
     disabled!: boolean;
+
+    @Prop({ type: Array, required: false, default: [] })
+    channels!: Channel[];
 }
 </script>

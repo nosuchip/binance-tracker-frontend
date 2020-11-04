@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { UserInfo, AuthToken } from '@/types/user-info';
-import { Signal } from '@/types/signals';
+import { Channel, Signal } from '@/types/signals';
 import { Comment, Post } from '@/types/blog';
 import { Paginated } from '@/types/pagination';
 import { apiBaseUrl } from '@/config';
@@ -64,7 +64,7 @@ export const loadSignals = async ({
     return axiosInstance.get('/api/signals', { params: { page, perPage, filter, paid } }).then(({ data }) => data);
 };
 
-export const loadSignal = async (signalId: string): Promise<{ signal: Signal; comments: Comment[] }> => {
+export const loadSignal = async (signalId: string): Promise<{ signal: Signal; comments: Comment[], channels: Channel[] }> => {
     return axiosInstance.get(`/api/signals/${signalId}`).then(({ data }) => data);
 };
 

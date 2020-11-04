@@ -4,7 +4,7 @@
 
         <v-row>
             <v-col cols="12" sm="4">
-                <signal-data ref="signalData" v-model="signal" :disabled="locked" />
+                <signal-data ref="signalData" v-model="signal" :channels="channels" :disabled="locked" />
             </v-col>
 
             <v-col cols="12" sm="8">
@@ -111,7 +111,7 @@
 import { Component, Mixins } from 'vue-property-decorator';
 import LoadableMixin from '@/mixins/Loadable';
 import * as api from '@/modules/api';
-import { defaultSignal, defaultEntryPoint, defaultTakeProfit, defaultStopLoss, Signal } from '@/types/signals';
+import { defaultSignal, defaultEntryPoint, defaultTakeProfit, defaultStopLoss, Signal, Channel } from '@/types/signals';
 import SignalData from '@/components/signals/admin/SignalData.vue';
 import SignalEditPanel from '@/components/signals/admin/SignalEditPanel.vue';
 import SignalEntryPoint from '@/components/signals/admin/SignalEntryPoint.vue';
@@ -134,7 +134,9 @@ export default class SignalEdit extends Mixins<LoadableMixin>(LoadableMixin) {
     private takeProfitOrdersValid = true;
     private stopLossOrdersValid = true;
     private entryPointsValid = true;
+
     private signal: Signal = { ...defaultSignal() };
+    private channels: Channel[] = [];
 
     private handleEntryPointAdd() {
         this.signal.entryPoints = [...this.signal.entryPoints, defaultEntryPoint({ signalId: this.signal.id })];
@@ -173,8 +175,9 @@ export default class SignalEdit extends Mixins<LoadableMixin>(LoadableMixin) {
         try {
             this.setLoading(true);
 
-            const { signal } = await api.loadSignal(signalId);
+            const { signal, channels } = await api.loadSignal(signalId);
             this.signal = defaultSignal(signal);
+            this.channels = channels;
         } catch (error) {
             this.$toasted.error('Unable to load signal');
         } finally {
@@ -325,9 +328,6 @@ export default class SignalEdit extends Mixins<LoadableMixin>(LoadableMixin) {
             } else {
                 ({ signal: updatedSignal } = await api.createSignal(payload));
             }
-
-            console.log(`>>>> 0`, updatedSignal);
-            console.log(`>>>> 1`, defaultSignal(updatedSignal));
 
             this.signal = defaultSignal(updatedSignal);
 
