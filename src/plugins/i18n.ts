@@ -10,6 +10,6 @@ export const messages = {
 };
 
 export default new VueI18n({
-    locale: 'ru',
+    locale: 'en',
     messages,
 });
