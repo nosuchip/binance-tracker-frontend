@@ -57,7 +57,11 @@ export default class ListOrderRow extends Vue {
             return `Order closed partially at volume ${this.volume}`;
         }
 
-        return `Order fully closed at volume ${this.volume}`;
+        if (this.order.closed) {
+            return `Order fully closed at volume ${this.volume}`;
+        }
+
+        return '';
     }
 }
 </script>

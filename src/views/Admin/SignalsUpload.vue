@@ -20,10 +20,15 @@
                     <template v-slot:default>
                         <thead>
                             <tr>
-                                <th class="border-c checkboxes" rowspan="2"></th>
-                                <!-- <th class="border-c order-head" rowspan="2">
-                                    #
-                                </th> -->
+                                <th class="border-c checkboxes" rowspan="2">
+                                    <v-simple-checkbox
+                                        dense
+                                        hide-details
+                                        @input="handleAllChange"
+                                        :value="allSelected"
+                                        :ripple="false"
+                                    ></v-simple-checkbox>
+                                </th>
                                 <th class="border-c date-head" rowspan="2">
                                     {{ $t('Date') }}
                                 </th>
@@ -295,6 +300,7 @@ export default class SignalsUpload extends Vue {
     private rows: Dictionary = {};
     private dialog = false;
     private postPreview = '';
+    private allSelected = false;
 
     private showPostPreview(post: string) {
         if (!post) return;
@@ -411,14 +417,14 @@ export default class SignalsUpload extends Vue {
         const tpSum = tpVolumes.reduce((acc: Big, volume: number) => acc.plus(volume), new Big(0));
 
         if (!tpSum.eq('1')) {
-            errors.push(`Sum of all Take Profit orders must be 100% (actual ${tpSum.mul(100).toString()}`);
+            errors.push(`Sum of all Take Profit orders must be 100% (actual ${tpSum.mul(100).toString()})`);
         }
 
         const slVolumes = data.takeProfitOrders.map((order: Dictionary) => order.volume);
         const slSum = slVolumes.reduce((acc: Big, volume: number) => acc.plus(volume), new Big(0));
 
         if (!slSum.eq('1')) {
-            errors.push(`Sum of all Stop Loss orders must be 100% (actual ${slSum.mul(100).toString()}`);
+            errors.push(`Sum of all Stop Loss orders must be 100% (actual ${slSum.mul(100).toString()})`);
         }
 
         const maxEntryPoint = Math.max(...data.entryPoints.map((ep: Dictionary) => ep.price));
@@ -508,6 +514,30 @@ export default class SignalsUpload extends Vue {
         });
 
         console.log(JSON.stringify(this.rows));
+    }
+
+    private handleAllChange(value: boolean) {
+        if (!this.rows || !this.rows.length) {
+            return;
+        }
+
+        const affectedRowsIndices = this.rows
+            .map((row: Dictionary, index: number) => {
+                if (row.saved || (row.errors && row.errors.length)) {
+                    return null;
+                }
+
+                return index;
+            })
+            .filter((index: number) => index !== null);
+
+        if (value) {
+            this.selected = affectedRowsIndices;
+        } else {
+            this.selected = this.selected.filter(index => !affectedRowsIndices.includes(index));
+        }
+
+        this.allSelected = value;
     }
 
     private handleUpload(files: File[]) {

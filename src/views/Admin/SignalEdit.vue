@@ -275,10 +275,10 @@ export default class SignalEdit extends Mixins<LoadableMixin>(LoadableMixin) {
         const payload: Dictionary = {
             id: this.signal.id,
             status: this.signal.status || 'active',
-            profitability: parseFloat(this.signal.profitability.toString()) || 0,
+            profitability: 0,
             ticker: this.signal.ticker,
             title: this.signal.title || this.signal.ticker,
-            price: parseFloat(this.signal.price.toString()) || 0,
+            price: 0,
             type: this.signal.type,
             risk: this.signal.risk,
             term: this.signal.term,
@@ -363,7 +363,7 @@ export default class SignalEdit extends Mixins<LoadableMixin>(LoadableMixin) {
     }
 
     get locked() {
-        return this.signal.remaining !== 1;
+        return this.signal.status === 'active' || !!this.signal.price || this.signal.remaining !== 1;
     }
 }
 </script>
